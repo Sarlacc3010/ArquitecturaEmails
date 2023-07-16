@@ -3,9 +3,9 @@ from email.message import EmailMessage
 import smtplib
 import time
 
-email_sender = ''       # Ingresar mail desde donde se enviaran los mensajes
+email_sender = 'carlozedmusa@gmail.com'       # Ingresar mail desde donde se enviaran los mensajes
 email_password = ''     # Ingresar contraseña del email
-email_receiver = ''     # Ingresar email que recibira los mensajes
+email_receiver = 'carlozedmusa@gmail.com'     # Ingresar email que recibira los mensajes
 
 subject = 'Check email send'
 body = """

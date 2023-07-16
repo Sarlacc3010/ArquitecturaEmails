@@ -1,22 +1,20 @@
-################################################################################################
-####################################### CLIENTE MQTT ###########################################
-################################################################################################
-import random
 import json
+import random
 import time
+
 from paho.mqtt import client as mqtt_client
 
-#Local
-#BROKER = 'localhost'
-#PORT = 1883
-#0TOPIC = "/test"
+# Local
+# BROKER = 'localhost'
+# PORT = 1883
+# 0TOPIC = "/test"
 # generate client ID with pub prefix randomly
-#CLIENT_ID = "python-mqtt-tcp-pub-sub-{id}".format(id=random.randint(0, 1000))
-#USERNAME = 'admin'
-#PASSWORD = 'public'
-#FLAG_CONNECTED = 0
+# CLIENT_ID = "python-mqtt-tcp-pub-sub-{id}".format(id=random.randint(0, 1000))
+# USERNAME = 'admin'
+# PASSWORD = 'public'
+# FLAG_CONNECTED = 0
 
-#Hive
+# Hive
 BROKER = 'broker.hivemq.com'
 PORT = 1883
 TOPIC_DATA = "metodos_ubicacion"
@@ -24,6 +22,7 @@ TOPIC_ALERT = "metodos_ubicacion"
 # generate client ID with pub prefix randomly
 CLIENT_ID = "python-mqtt-tcp-pub-sub-{id}".format(id=random.randint(0, 1000))
 FLAG_CONNECTED = 0
+
 
 def on_connect(client, userdata, flags, rc):
     global FLAG_CONNECTED
@@ -37,36 +36,36 @@ def on_connect(client, userdata, flags, rc):
         print("Failed to connect, return code {rc}".format(rc=rc), )
 
 
-def on_message(client, userdata, msg):
-    #print("Received `{payload}` from `{topic}` topic".format(payload=msg.payload.decode(), topic=msg.topic))
-    try:
-        print("Received `{payload}` from `{topic}` topic".format(payload=msg.payload.decode(), topic=msg.topic))
-        i = 1
-        publish(client,TOPIC_ALERT, i)
-        i += 1
-
-    except Exception as e:
-        print(e)
-
 def connect_mqtt():
     client = mqtt_client.Client(CLIENT_ID)
-    #client.username_pw_set(USERNAME, PASSWORD)
     client.on_connect = on_connect
-    client.on_message = on_message
+    #   client.on_message = on_message
     client.connect(BROKER, PORT)
     return client
 
-#Enviar mensajes
-def publish(client,TOPIC,msg):
-    aux = 1
-    msg = aux
-    #   msg = json.dumps(msg)
-    time.sleep(10)
+
+#   Enviar mensajes
+def publish(client, TOPIC, msg):
+    msg = json.dumps(msg)
     result = client.publish(TOPIC, msg)
-    aux += 1
+    time.sleep(1)
 
 
 client = connect_mqtt()
+
+
+#   Contador
+def contador():
+    aux = 0
+    TOPIC = "metodos_ubicacion"
+    while aux < 1000:
+        publish(client, TOPIC, aux)
+        aux += 1
+
+
+contador()  # Llamar al contador y publicar en hivemq
+
+
 def run():
     while True:
         client.loop_start()
@@ -79,3 +78,4 @@ def run():
 
 if __name__ == '__main__':
     run()
+
