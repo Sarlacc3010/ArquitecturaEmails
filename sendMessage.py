@@ -4,7 +4,6 @@ import smtplib
 import json
 import random
 import time
-import psutil
 from paho.mqtt import client as mqtt_client
 
 # Local
@@ -93,10 +92,3 @@ while x < 10:
 
     x += 1
     time.sleep(10)
-
-alerta = psutil.cpu_percent(4)
-
-if alerta > 40:
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-        smtp.login(email_sender, email_password)
-        smtp.sendmail(email_sender, email_receiver, em.as_string())
