@@ -67,9 +67,9 @@ email_receiver = 'carlozedmusa@gmail.com'     # Ingresar email que recibira los 
 
 
 #   set message
-subject = 'Check email send'
+subject = 'Uso de cpu alto'
 body = """
-Mensaje de prueba
+El uso de su cpu es mayor al 40%
 """
 
 em = EmailMessage()
@@ -81,22 +81,13 @@ em.set_content(body)
 context = ssl.create_default_context()
 
 
-#   every 'x' time we send an email
-x = 1
-TOPIC = "metodos_ubicacion"
-while x < 10:
+#   if cpu > 40 send mail
 
-    publish(client, TOPIC, x)
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-        smtp.login(email_sender, email_password)
-        smtp.sendmail(email_sender, email_receiver, em.as_string())
-
-    x += 1
-    time.sleep(10)
-
-alerta = psutil.cpu_percent(4)
-
-if alerta > 40:
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-        smtp.login(email_sender, email_password)
-        smtp.sendmail(email_sender, email_receiver, em.as_string())
+while True:
+    alerta = psutil.cpu_percent()
+    if alerta > 40:
+        print(alerta)
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+            smtp.login(email_sender, email_password)
+            smtp.sendmail(email_sender, email_receiver, em.as_string())
+            time.sleep(10)
