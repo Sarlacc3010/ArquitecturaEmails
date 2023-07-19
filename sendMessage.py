@@ -60,9 +60,9 @@ def publish(client, TOPIC, msg):
 #   set sender and receiver
 
 
-email_sender = 'carlozedmusa@gmail.com'       # Ingresar mail desde donde se enviaran los mensajes
-email_password = 'qsgjmodahrdtefvo'     # Ingresar contraseña del email
-email_receiver = 'carlozedmusa@gmail.com'     # Ingresar email que recibira los mensajes
+email_sender = ''       # Ingresar mail desde donde se enviaran los mensajes
+email_password = ''     # Ingresar contraseña del email
+email_receiver = ''     # Ingresar email que recibira los mensajes
 
 
 #   set message
